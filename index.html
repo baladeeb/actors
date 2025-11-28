@@ -1,503 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Actor Profiles</title>
-
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
-
-  <style>
-    body {
-      font-family: 'Poppins', Arial, sans-serif;
-      background: #000;
-      margin: 0;
-      padding: 50px 40px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 50px;
-      color: #fff;
-    }
-
-    .profile {
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .profile:hover {
-      transform: translateY(-8px);
-    }
-    .profile img {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 3px solid #555;
-      box-shadow: 0 0 15px rgba(255,255,255,0.1);
-    }
-    .profile-name {
-      margin-top: 10px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    /* Mini gallery overlay */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.97);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      overflow-y: auto;
-      z-index: 1000;
-      padding: 80px 30px 60px; /* top padding ensures content not hidden */
-    }
-    .overlay.active { display: flex; }
-
-    .overlay h2 {
-      margin-bottom: 30px;
-      text-transform: capitalize;
-      letter-spacing: 1px;
-      color: #f8f8f8;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 15px;
-      width: 100%;
-      max-width: 1000px;
-    }
-
-    .gallery img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .gallery img:hover {
-      transform: scale(1.05);
-    }
-
-    .close-btn {
-      margin-top: 30px;
-      background: crimson;
-      border: none;
-      padding: 12px 25px;
-      color: white;
-      border-radius: 30px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .close-btn:hover {
-      background: #e00000;
-    }
-
-    /* Second close button for Lightbox */
-    .lightbox-close-custom {
-      position: fixed;
-      top: 25px;
-      right: 35px;
-      background: crimson;
-      color: #fff;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 20px;
-      font-size: 0.9em;
-      z-index: 99999;
-      cursor: pointer;
-      display: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Code Calculator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .calculator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+            width: 260px;
+        }
+        input[type="text"] {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            text-align: right;
+            margin-bottom: 10px;
+            padding-right: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        button {
+            height: 50px;
+            font-size: 20px;
+            border-radius: 10px;
+            border: none;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #d0d0d0;
+        }
+        button.equal {
+            background-color: #4CAF50;
+            color: white;
+        }
+        button.equal:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="buttons">
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="appendOperator('/')">/</button>
 
-  <!-- Actor Profiles -->
-  <div class="profile" onclick="openGallery('emin')">
-    <img src="emin1.jpg" alt="emin">
-    <div class="profile-name">emin</div>
-  </div>
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="appendOperator('*')">*</button>
 
-  <div class="profile" onclick="openGallery('samed')">
-    <img src="samed1.jpg" alt="samed">
-    <div class="profile-name">samed</div>
-  </div>
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="appendOperator('-')">-</button>
 
-  <div class="profile" onclick="openGallery('dola')">
-    <img src="dola1.jpg" alt="dola">
-    <div class="profile-name">dola</div>
-  </div>
+            <button onclick="appendNumber('0')">0</button>
+            <button onclick="appendNumber('.')">.</button>
+            <button class="equal" onclick="calculateResult()">=</button>
+            <button onclick="appendOperator('+')">+</button>
 
-  <div class="profile" onclick="openGallery('juan')">
-    <img src="juan1.jpg" alt="juan">
-    <div class="profile-name">juan</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('itash')">
-    <img src="itash1.jpg" alt="itash">
-    <div class="profile-name">itash</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('hasan')">
-    <img src="hasan1.jpg" alt="hasan">
-    <div class="profile-name">hasan</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('elie')">
-    <img src="elie1.jpg" alt="elie">
-    <div class="profile-name">elie</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('yahya')">
-    <img src="yahya1.jpg" alt="yahya">
-    <div class="profile-name">yahya</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('aaron')">
-    <img src="aaron1.jpg" alt="aaron">
-    <div class="profile-name">aaron</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('kerem')">
-    <img src="kerem1.jpg" alt="kerem">
-    <div class="profile-name">kerem</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('serkan')">
-    <img src="serkan1.jpg" alt="serkan">
-    <div class="profile-name">serkan</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('deniz')">
-    <img src="deniz1.jpg" alt="deniz">
-    <div class="profile-name">deniz</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('murat')">
-    <img src="murat1.jpg" alt="murat">
-    <div class="profile-name">murat</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('burak')">
-    <img src="burak1.jpg" alt="burak">
-    <div class="profile-name">burak</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('guzel')">
-    <img src="guzel1.jpg" alt="guzel">
-    <div class="profile-name">guzel</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('jordon')">
-    <img src="jordon1.jpg" alt="jordon">
-    <div class="profile-name">jordon</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('rabi3')">
-    <img src="rabi31.jpg" alt="rabi3">
-    <div class="profile-name">rabi3</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('hakan')">
-    <img src="hakan1.jpg" alt="hakan">
-    <div class="profile-name">hakan</div>
-  </div>
-
-  <div class="profile" onclick="openGallery('declan')">
-    <img src="declan1.jpg" alt="declan">
-    <div class="profile-name">declan</div>
-  </div>
-
-  <!-- Emin Gallery -->
-  <div id="emin" class="overlay">
-    <h2>emin - Gallery</h2>
-    <div class="gallery">
-      <a href="emin1.jpg" data-lightbox="emin" data-title="emin"><img src="emin1.jpg"></a>
-      <a href="emin2.jpg" data-lightbox="emin" data-title="emin"><img src="emin2.jpg"></a>
-      <a href="emin3.jpg" data-lightbox="emin" data-title="emin"><img src="emin3.jpg"></a>
-      <a href="emin4.jpg" data-lightbox="emin" data-title="emin"><img src="emin4.jpg"></a>
-      <a href="emin5.jpg" data-lightbox="emin" data-title="emin"><img src="emin5.jpg"></a>
-      <a href="emin6.jpg" data-lightbox="emin" data-title="emin"><img src="emin6.jpg"></a>
-      <a href="emin7.jpg" data-lightbox="emin" data-title="emin"><img src="emin7.jpg"></a>
-      <a href="emin8.jpg" data-lightbox="emin" data-title="emin"><img src="emin8.jpg"></a>
-      <a href="emin9.jpg" data-lightbox="emin" data-title="emin"><img src="emin9.jpg"></a>
-      <a href="emin10.jpg" data-lightbox="emin" data-title="emin"><img src="emin10.jpg"></a>
-      <a href="emin11.jpg" data-lightbox="emin" data-title="emin"><img src="emin11.jpg"></a>
-      <a href="emin12.jpg" data-lightbox="emin" data-title="emin"><img src="emin12.jpg"></a>
+            <button onclick="clearDisplay()" style="grid-column: span 4; background-color: #f44336; color: white;">C</button>
+        </div>
     </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
 
-  <!-- Samed Gallery -->
-  <div id="samed" class="overlay">
-    <h2>samed - Gallery</h2>
-    <div class="gallery">
-      <a href="samed1.jpg" data-lightbox="samed"><img src="samed1.jpg"></a>
-      <a href="samed2.jpg" data-lightbox="samed"><img src="samed2.jpg"></a>
-      <a href="samed3.jpg" data-lightbox="samed"><img src="samed3.jpg"></a>
-      <a href="samed4.jpg" data-lightbox="samed"><img src="samed4.jpg"></a>
-      <a href="samed5.jpg" data-lightbox="samed"><img src="samed5.jpg"></a>
-      <a href="samed6.jpg" data-lightbox="samed"><img src="samed6.jpg"></a>
-      <a href="samed7.jpg" data-lightbox="samed"><img src="samed7.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
+    <script>
+        const display = document.getElementById('display');
 
-  <!-- Dola Gallery -->
-  <div id="dola" class="overlay">
-    <h2>dola - Gallery</h2>
-    <div class="gallery">
-      <a href="dola1.jpg" data-lightbox="dola"><img src="dola1.jpg"></a>
-      <a href="dola2.jpg" data-lightbox="dola"><img src="dola2.jpg"></a>
-      <a href="dola3.jpg" data-lightbox="dola"><img src="dola3.jpg"></a>
-      <a href="dola4.jpg" data-lightbox="dola"><img src="dola4.jpg"></a>
-      <a href="dola5.jpg" data-lightbox="dola"><img src="dola5.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
+        function appendNumber(number) {
+            display.value += number;
+        }
 
-  <div id="juan" class="overlay">
-    <h2>juan - Gallery</h2>
-    <div class="gallery">
-      <a href="juan1.jpg" data-lightbox="juan"><img src="juan1.jpg"></a>
-      <a href="juan2.jpg" data-lightbox="juan"><img src="juan2.jpg"></a>
-      <a href="juan3.jpg" data-lightbox="juan"><img src="juan3.jpg"></a>
-      <a href="juan4.jpg" data-lightbox="juan"><img src="juan4.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
+        function appendOperator(operator) {
+            display.value += operator;
+        }
 
-  <div id="itash" class="overlay">
-    <h2>itash - Gallery</h2>
-    <div class="gallery">
-      <a href="itash1.jpg" data-lightbox="itash"><img src="itash1.jpg"></a>
-      <a href="itash2.jpg" data-lightbox="itash"><img src="itash2.jpg"></a>
-      <a href="itash3.jpg" data-lightbox="itash"><img src="itash3.jpg"></a>
-      <a href="itash4.jpg" data-lightbox="itash"><img src="itash4.jpg"></a>
-      <a href="itash5.jpg" data-lightbox="itash"><img src="itash5.jpg"></a>
-      <a href="itash6.jpg" data-lightbox="itash"><img src="itash6.jpg"></a>
-      <a href="itash7.jpg" data-lightbox="itash"><img src="itash7.jpg"></a>
-      <a href="itash8.jpg" data-lightbox="itash"><img src="itash8.jpg"></a>
-      <a href="itash9.jpg" data-lightbox="itash"><img src="itash9.jpg"></a>
-      <a href="itash10.jpg" data-lightbox="itash"><img src="itash10.jpg"></a>
-      <a href="itash11.jpg" data-lightbox="itash"><img src="itash11.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
+        function clearDisplay() {
+            display.value = '';
+        }
 
-  <div id="hasan" class="overlay">
-    <h2>hasan - Gallery</h2>
-    <div class="gallery">
-      <a href="hasan1.jpg" data-lightbox="hasan"><img src="hasan1.jpg"></a>
-      <a href="hasan2.jpg" data-lightbox="hasan"><img src="hasan2.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="elie" class="overlay">
-    <h2>elie - Gallery</h2>
-    <div class="gallery">
-      <a href="elie1.jpg" data-lightbox="elie"><img src="elie1.jpg"></a>
-      <a href="elie2.jpg" data-lightbox="elie"><img src="elie2.jpg"></a>
-      <a href="elie3.jpg" data-lightbox="elie"><img src="elie3.jpg"></a>
-      <a href="elie4.jpg" data-lightbox="elie"><img src="elie4.jpg"></a>
-      <a href="elie5.jpg" data-lightbox="elie"><img src="elie5.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="yahya" class="overlay">
-    <h2>yahya - Gallery</h2>
-    <div class="gallery">
-      <a href="yahya1.jpg" data-lightbox="yahya"><img src="yahya1.jpg"></a>
-      <a href="yahya2.jpg" data-lightbox="yahya"><img src="yahya2.jpg"></a>
-      <a href="yahya3.jpg" data-lightbox="yahya"><img src="yahya3.jpg"></a>
-      <a href="yahya4.jpg" data-lightbox="yahya"><img src="yahya4.jpg"></a>
-      <a href="yahya5.jpg" data-lightbox="yahya"><img src="yahya5.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="aaron" class="overlay">
-    <h2>aaron - Gallery</h2>
-    <div class="gallery">
-      <a href="aaron1.jpg" data-lightbox="aaron"><img src="aaron1.jpg"></a>
-      <a href="aaron2.jpg" data-lightbox="aaron"><img src="aaron2.jpg"></a>
-      <a href="aaron3.jpg" data-lightbox="aaron"><img src="aaron3.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="kerem" class="overlay">
-    <h2>kerem - Gallery</h2>
-    <div class="gallery">
-      <a href="kerem1.jpg" data-lightbox="kerem"><img src="kerem1.jpg"></a>
-      <a href="kerem2.jpg" data-lightbox="kerem"><img src="kerem2.jpg"></a>
-      <a href="kerem3.jpg" data-lightbox="kerem"><img src="kerem3.jpg"></a>
-      <a href="kerem4.jpg" data-lightbox="kerem"><img src="kerem4.jpg"></a>
-      <a href="kerem5.jpg" data-lightbox="kerem"><img src="kerem5.jpg"></a>
-      <a href="kerem6.jpg" data-lightbox="kerem"><img src="kerem6.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="serkan" class="overlay">
-    <h2>serkan - Gallery</h2>
-    <div class="gallery">
-      <a href="serkan1.jpg" data-lightbox="serkan"><img src="serkan1.jpg"></a>
-      <a href="serkan2.jpg" data-lightbox="serkan"><img src="serkan2.jpg"></a>
-      <a href="serkan3.jpg" data-lightbox="serkan"><img src="serkan3.jpg"></a>
-      <a href="serkan4.jpg" data-lightbox="serkan"><img src="serkan4.jpg"></a>
-      <a href="serkan5.jpg" data-lightbox="serkan"><img src="serkan5.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="deniz" class="overlay">
-    <h2>deniz - Gallery</h2>
-    <div class="gallery">
-      <a href="deniz1.jpg" data-lightbox="deniz"><img src="deniz1.jpg"></a>
-      <a href="deniz2.jpg" data-lightbox="deniz"><img src="deniz2.jpg"></a>
-      <a href="deniz3.jpg" data-lightbox="deniz"><img src="deniz3.jpg"></a>
-      <a href="deniz4.jpg" data-lightbox="deniz"><img src="deniz4.jpg"></a>
-      <a href="deniz5.jpg" data-lightbox="deniz"><img src="deniz5.jpg"></a>
-      <a href="deniz6.jpg" data-lightbox="deniz"><img src="deniz6.jpg"></a>
-      <a href="deniz7.jpg" data-lightbox="deniz"><img src="deniz7.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="murat" class="overlay">
-    <h2>murat - Gallery</h2>
-    <div class="gallery">
-      <a href="murat1.jpg" data-lightbox="murat"><img src="murat1.jpg"></a>
-      <a href="murat2.jpg" data-lightbox="murat"><img src="murat2.jpg"></a>
-      <a href="murat3.jpg" data-lightbox="murat"><img src="murat3.jpg"></a>
-      <a href="murat4.jpg" data-lightbox="murat"><img src="murat4.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="burak" class="overlay">
-    <h2>burak - Gallery</h2>
-    <div class="gallery">
-      <a href="burak1.jpg" data-lightbox="burak"><img src="burak1.jpg"></a>
-      <a href="burak2.jpg" data-lightbox="burak"><img src="burak2.jpg"></a>
-      <a href="burak3.jpg" data-lightbox="burak"><img src="burak3.jpg"></a>
-      <a href="burak4.jpg" data-lightbox="burak"><img src="burak4.jpg"></a>
-      <a href="burak5.jpg" data-lightbox="burak"><img src="burak5.jpg"></a>
-      <a href="burak6.jpg" data-lightbox="burak"><img src="burak6.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="guzel" class="overlay">
-    <h2>guzel - Gallery</h2>
-    <div class="gallery">
-      <a href="guzel1.jpg" data-lightbox="guzel"><img src="guzel1.jpg"></a>
-      <a href="guzel2.jpg" data-lightbox="guzel"><img src="guzel2.jpg"></a>
-      <a href="guzel3.jpg" data-lightbox="guzel"><img src="guzel3.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="jordon" class="overlay">
-    <h2>jordon - Gallery</h2>
-    <div class="gallery">
-      <a href="jordon1.jpg" data-lightbox="jordon"><img src="jordon1.jpg"></a>
-      <a href="jordon2.jpg" data-lightbox="jordon"><img src="jordon2.jpg"></a>
-      <a href="jordon3.jpg" data-lightbox="jordon"><img src="jordon3.jpg"></a>
-      <a href="jordon4.jpg" data-lightbox="jordon"><img src="jordon4.jpg"></a>
-      <a href="jordon5.jpg" data-lightbox="jordon"><img src="jordon5.jpg"></a>
-      <a href="jordon6.jpg" data-lightbox="jordon"><img src="jordon6.jpg"></a>
-      <a href="jordon7.jpg" data-lightbox="jordon"><img src="jordon7.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="rabi3" class="overlay">
-    <h2>rabi3 - Gallery</h2>
-    <div class="gallery">
-      <a href="rabi31.jpg" data-lightbox="rabi3"><img src="rabi31.jpg"></a>
-      <a href="rabi32.jpg" data-lightbox="rabi3"><img src="rabi32.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="hakan" class="overlay">
-    <h2>hakan - Gallery</h2>
-    <div class="gallery">
-      <a href="hakan1.jpg" data-lightbox="hakan"><img src="hakan1.jpg"></a>
-      <a href="hakan2.jpg" data-lightbox="hakan"><img src="hakan2.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <div id="declan" class="overlay">
-    <h2>declan - Gallery</h2>
-    <div class="gallery">
-      <a href="declan1.jpg" data-lightbox="declan"><img src="declan1.jpg"></a>
-      <a href="declan2.jpg" data-lightbox="declan"><img src="declan2.jpg"></a>
-      <a href="declan3.jpg" data-lightbox="declan"><img src="declan3.jpg"></a>
-      <a href="declan4.jpg" data-lightbox="declan"><img src="declan4.jpg"></a>
-      <a href="declan5.jpg" data-lightbox="declan"><img src="declan5.jpg"></a>
-      <a href="declan6.jpg" data-lightbox="declan"><img src="declan6.jpg"></a>
-      <a href="declan7.jpg" data-lightbox="declan"><img src="declan7.jpg"></a>
-    </div>
-    <button class="close-btn" onclick="closeGallery()">Close Gallery</button>
-  </div>
-
-  <!-- Lightbox Close Button -->
-  <button class="lightbox-close-custom" id="lightboxClose" onclick="closeLightboxAndReturn()">× Close</button>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
-  <script>
-    function openGallery(id) {
-      document.getElementById(id).classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeGallery() {
-      document.querySelectorAll('.overlay').forEach(o => o.classList.remove('active'));
-      document.body.style.overflow = 'auto';
-    }
-
-    lightbox.option({
-      fadeDuration: 200,
-      imageFadeDuration: 200,
-      resizeDuration: 200
-    });
-
-    // Show custom close button when Lightbox opens
-    document.addEventListener('click', function () {
-      const lb = document.querySelector('.lightbox');
-      const btn = document.getElementById('lightboxClose');
-      if (lb && lb.style.display === 'block') {
-        btn.style.display = 'block';
-      }
-    });
-
-    // Hide button when Lightbox closes
-    document.addEventListener('click', function () {
-      const overlay = document.querySelector('.lightboxOverlay');
-      const btn = document.getElementById('lightboxClose');
-      if (!overlay || overlay.style.display === 'none') {
-        btn.style.display = 'none';
-      }
-    });
-
-    // Function to close Lightbox and go back to mini page
-    function closeLightboxAndReturn() {
-      const closeBtn = document.querySelector('.lb-close');
-      if (closeBtn) closeBtn.click(); // close lightbox
-      closeGallery(); // then close actor overlay
-      document.getElementById('lightboxClose').style.display = 'none';
-    }
-  </script>
+        function calculateResult() {
+            // Secret code logic
+            if (display.value === '4398') {
+                window.location.href = 'act.html';
+            } else {
+                try {
+                    display.value = eval(display.value);
+                } catch {
+                    display.value = 'Error';
+                }
+            }
+        }
+    </script>
 </body>
 </html>
